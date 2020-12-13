@@ -70,9 +70,11 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </footer>
     <!--::footer_part end::-->
 
+
     <!-- jquery plugins here-->
     <!-- jquery -->
-    <script src=" <?php echo base_url('assets/js/jquery-1.12.1.min.js'); ?> "></script>
+
+    <script src=" <?php echo base_url('assets/js/image-uploader.min.js'); ?> "></script>
     <!-- popper js -->
     <script src=" <?php echo base_url('assets/js/popper.min.js'); ?> "></script>
     <!-- bootstrap js -->
@@ -96,9 +98,12 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src=" <?php echo base_url('assets/js/jquery.validate.min.js'); ?> "></script>
     <script src=" <?php echo base_url('assets/js/mail-script.js'); ?> "></script>
     <script src=" <?php echo base_url('assets/js/stellar.js'); ?> "></script>
-    <script src=" <?php echo base_url('assets/js/price_rangs.js'); ?> "></script>
+	
+	 <script src=" <?php echo base_url('assets/js/moment.js'); ?> "></script>
+	 <script src=" <?php echo base_url('assets/js/daterangepicker.min.js'); ?> "></script>
+
     <!-- custom js -->
-    <script src="<?php echo base_url('assets/js/custom.js'); ?>"></script>
+
 </body>
 
 </html>

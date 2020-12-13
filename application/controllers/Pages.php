@@ -19,7 +19,9 @@
 				$data['title'] = ucfirst($page); // Capitalize the first letter
 
 			
-				$this->load->view('elements/header', $data);
+				$this->load->view('elements/header', [
+					'admin_id' => $this->session->userdata('userId')
+				]); 
 				$this->load->view('public/'.$page, [
 					'images' => $this->model->all(),
 				]);

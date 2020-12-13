@@ -1,7 +1,7 @@
 /**********************footer part css*******************/
 .footer_part {
 	background-color: $black_color;
-	padding: 140px 0 25px;
+	padding: 60px;
 	@media #{$tab} {
 		padding: 70px 0 25px;
 	}
@@ -121,7 +121,7 @@
 
 	.copyright_text {
 		border-top: 1px solid #333333;
-		margin: 100px 0 0;
+		margin: 20px 0 0;
 		padding: 25px 0 0;
 		@media #{$tab} {
 			margin: 50px 0 0;

@@ -4,8 +4,8 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>winter</title>
-    <link rel="icon" href="img/favicon.png">
+    <title>pescao</title>
+	<link rel="icon" href="<?php echo base_url('assets/img/Northwestern_Mindanao_State_College_of_Science_and_Technology.png'); ?>">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href=" <?php echo base_url('assets/css/bootstrap.min.css'); ?>">
     <!-- animate CSS -->
@@ -24,10 +24,24 @@
     <link rel="stylesheet" href=" <?php echo base_url('assets/css/slick.css'); ?> ">
     <!-- swiper CSS -->
     <link rel="stylesheet" href=" <?php echo base_url('assets/css/price_rangs.css'); ?> ">
+    <link rel="stylesheet" href=" <?php echo base_url('assets/css/kronos.css'); ?> ">
     <!-- style CSS -->
     <link rel="stylesheet" href=" <?php echo base_url('assets/css/style.css'); ?> ">
 	<link rel="stylesheet" href=" <?php echo base_url('assets/css/custom.css'); ?> ">
+	<link rel="stylesheet" href=" <?php echo base_url('assets/css/daterangepicker.css'); ?> ">
+	
+	<link rel="stylesheet" href=" <?php echo base_url('assets/css/image-uploader.min.css'); ?> ">
+	
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,700|Montserrat:300,400,500,600,700|Source+Code+Pro&display=swap"
+          rel="stylesheet">
+
+	<script src=" <?php echo base_url('assets/mdb/js/jquery.min.js'); ?> "></script>
+	<script src=" <?php echo base_url('assets/mdb/js/jquery-3.4.1.min.js'); ?> "></script>
+	<script src=" <?php echo base_url('assets/mdb/js/mdb.min.js'); ?> "></script>
+	
 </head>
+
 
 <body class="bg-white">
     <!--::header part start::-->
@@ -36,7 +50,8 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-11">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="<?php echo base_url('/'); ?>"> <img src="<?php echo base_url('assets/img/logo.png'); ?>" alt="logo"> </a>
+                        <a class="navbar-brand" href="<?php echo base_url('/'); ?>"> PESCAO </a>
+						 <img style=" max-width: 100%; width: auto; height: 61px;" id="image" src=" <?php echo base_url('assets/img/Northwestern_Mindanao_State_College_of_Science_and_Technology.png'); ?> " alt="logo" />
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                             aria-expanded="false" aria-label="Toggle navigation">
@@ -44,57 +59,51 @@
                         </button>
 
                         <div class="collapse navbar-collapse main-menu-item" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="<?php echo base_url('/'); ?>">Home</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_1"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Shop
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_1">
-                                        <a class="dropdown-item" href="category.html"> shop category</a>
-                                        <a class="dropdown-item" href="single-product.html">product details</a>
-                                        
-                                    </div>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        pages
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="login.html"> 
-                                            login
-                                            
-                                        </a>
-                                        <a class="dropdown-item" href="tracking.html">tracking</a>
-                                        <a class="dropdown-item" href="checkout.html">product checkout</a>
-                                        <a class="dropdown-item" href="cart.html">shopping cart</a>
-                                        <a class="dropdown-item" href="confirmation.html">confirmation</a>
-                                        <a class="dropdown-item" href="elements.html">elements</a>
-                                    </div>
-                                </li>
-                                
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_2"
-                                        role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        blog
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
-                                        <a class="dropdown-item" href="blog.html"> blog</a>
-                                        <a class="dropdown-item" href="single-blog.html">Single blog</a>
-                                    </div>
-                                </li>
-                                
-                                <li class="nav-item">
-                                    <a class="nav-link" href="contact.html">Contact</a>
-                                </li>
-                            </ul>
+							<?php if( $admin_id ) : ?>
+								<ul class="navbar-nav">
+									<li class="nav-item">
+										<!--<a class="nav-link" href="<?php  //echo ( $admin_id && $admin_id == 1 ? base_url('admin/dashboard/') : base_url('/') ) ; ?>">Home</a>-->
+										<a class="nav-link" href="<?php  echo base_url("admin/dashboard/"); ?>">Home</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="<?php echo base_url("/checkout/cart")?>">Item Checkout</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="<?php echo base_url("/admin/rentors")?>">Rentors</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link" href="<?php echo base_url("/admin/borrowers")?>">Borrowers</a>
+									</li>
+									<li class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+											role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											reports
+										</a>
+										<div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+											<a class="dropdown-item" href="<?php echo base_url('/admin/rentorReport'); ?>">Rentor History</a>
+											<a class="dropdown-item" href="<?php echo base_url('/admin/borrowerReport'); ?>">Borrower History</a>
+											<a class="dropdown-item" href="<?php echo base_url('/admin/item_lost'); ?>">General Report</a>
+										</div>
+									</li>
+									<li class="nav-item">
+										<?php echo (  $admin_id == 1 && $admin_id ? '<a class="nav-link" href="/pescao/admin/users/">Admin Users</a>': '' ) ?>
+									</li>
+
+								</ul>
+							<?php endif; ?>
                         </div>
                         <div class="hearer_icon d-flex">
-                            <a id="search_1" href="<?php echo base_url('admin/login'); ?>"><i class="ti-user"></i></a>
+									<div class="nav-item dropdown">
+										<a class="nav-link dropdown-toggle" href="blog.html" id="navbarDropdown_3"
+											role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<i class="ti-user"></i>
+										</a>
+										<div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
+											<?php echo(  $admin_id ? '<a class="dropdown-item" href='. base_url("admin/logout") .'>Logout</a>' : '<a class="dropdown-item" href='. base_url("admin/login") .'>Login</a>' ) ?>
+											<a class="dropdown-item" href="/pescao/admin/profile/">My Profile</a>
+											<!--<a class="dropdown-item" href="<?php echo base_url("/admin/rentors")?>">Rentors</a> -->
+										</div>
+									</div>
                         </div>
                     </nav>
                 </div>

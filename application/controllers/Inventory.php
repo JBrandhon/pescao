@@ -15,6 +15,53 @@
 				'notification' => $this->session->flashdata('notification')
 			]);
 		}
+		
+		public function edit()
+		{
+			$inventoryData = array( 
+                'name' 					=> strip_tags($this->input->post('item_name')),
+				'item_type' 			=> strip_tags($this->input->post('type')),				
+                'gender' 				=> strip_tags($this->input->post('gender')), 
+                'qty' 					=> strip_tags($this->input->post('qty')), 
+                'description' 			=> strip_tags($this->input->post('message')), 
+                'rental_prize' 			=> strip_tags($this->input->post('price')),
+                'id' 					=> strip_tags($this->input->post('product-id')),
+                'total_envintory_qty' 	=> strip_tags($this->input->post('total_envintory_qty')),
+            ); 
+	
+			//$this->model->delete_image($inventoryData['id']);
+			
+			$count = count($_FILES['images']['name']);
+			$tmp;
+			 
+			for($i=0;$i<$count;$i++){
+
+				if(!empty($_FILES['images']['name'][$i])){
+					$this->model->store_image(  $this->input->post('product-id'), file_get_contents($_FILES["images"]["tmp_name"][$i]) );
+					
+				}
+			}
+			
+			//redirect(site_url('/admin/dashboard'), 'refresh');
+		}
+		
+		public function returnItem ()
+		{
+			$return_checkout = array(
+				'renters_id' =>  $this->input->post('id'),
+				'reciept_number' =>  $this->input->post('reciept_number'),
+			);
+			$this->session->set_userdata('sessionReciept', '');
+			$update = $this->model->return_checkout( $return_checkout );
+			return $update;
+		}
+
+		public function item_lost ()
+		{	
+			$data = $this->input->post('data');
+			print_r($data);
+			return $update = $this->model->item_lost( $data );
+		}
 
 		// public function delete($id)
 		// {
@@ -39,19 +86,38 @@
 
 		public function upload()
 		{
-			
+		
+		  
 			$inventoryData = array( 
-                'name' => strip_tags($this->input->post('costume_name')), 
-                'qty' => strip_tags($this->input->post('costume_qty')), 
-                'rental_prize' => strip_tags($this->input->post('costume_prize')),
-				'image'=>file_get_contents($_FILES['userfile']['tmp_name']),
+                'name' 			=> strip_tags($this->input->post('item_name')), 
+                'gender' 		=> strip_tags($this->input->post('for_gender')), 
+                'qty' 			=> strip_tags($this->input->post('item_qty')), 
+                'description' 	=> strip_tags($this->input->post('description')), 
+                'rental_prize' 	=> strip_tags($this->input->post('item_prize')),
+                'item_type' 	=> strip_tags($this->input->post('item_type'))
             ); 
 			
-			$insert = $this->model->store($inventoryData);
- 
+			// print_r($inventoryData);
+			// die();
 			
-			$this->model->title = $_FILES['userfile']['name'];
-			$this->model->image = file_get_contents($_FILES['userfile']['tmp_name']);
+			$insert = $this->model->store($inventoryData);
+			// echo $insert;
+
+			$count = count($_FILES['images']['name']);
+			$tmp;
+			 
+			for($i=0;$i<$count;$i++){
+
+				if(!empty($_FILES['images']['name'][$i])){
+					echo ( $_FILES["images"]["name"][$i] );
+					$this->model->store_image(  $insert, file_get_contents($_FILES["images"]["tmp_name"][$i]) );
+					
+				}
+			}			
+
+			
+			// $this->model->title = $_FILES['userfile']['name'];
+			// $this->model->image = file_get_contents($_FILES['userfile']['tmp_name']);
 
 			if ($this->model->store() === TRUE) {
 				$notification = '<div class="alert alert-success">Success uploading <strong>'. $_FILES['userfile']['name'] . '</strong> to DB.</div>';
@@ -61,9 +127,8 @@
 
 			$this->session->set_flashdata('notification', $notification);
 				
-			echo 'done';
-			die();
-			// redirect(site_url('/'), 'refresh');
+	
+			redirect(site_url('/admin/dashboard'), 'refresh');
 		}
 
 	}

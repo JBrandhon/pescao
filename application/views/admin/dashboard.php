@@ -1,73 +1,31 @@
-<a href="<?php echo base_url('admin/logout'); ?>" class="logout">Logout</a>
-       
-	  <div class="col-lg-12">
-          <div class="tracking_box_inner">
-            <p>To track your order please enter your Order ID in the box below and press the "Track" button. This was
-              given
-              to you on your receipt and in the confirmation email you should have received.</p>
-            <?php echo form_open_multipart('inventory/upload'); ?>
-              <div class="col-md-12 form-group">
-                <input type="file" name="userfile" class="form-control"></input>
-              </div>
-              <div class="col-md-12 form-group">
-                <input type="text" class="form-control" id="costume_name" name="costume_name" placeholder="Costume Name">
-              </div>
-              <div class="col-md-12 form-group">
-                <input type="number" class="form-control" id="costume_qty" name="costume_qty" placeholder="Qty..">
-              </div>
-              <div class="col-md-12 form-group">
-                <input type="number" class="form-control" id="costume_prize" name="costume_prize" placeholder="Rental Prize">
-              </div>
-              <div class="col-md-12 form-group">
-                <button type="submit" value="submit" class="btn_3">Save</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
+ 
     <!--================Category Product Area =================-->
     <section class="cat_product_area section-top border_top">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="left_sidebar_area">
-    
-                       <aside class="left_widgets p_filter_widgets sidebar_box_shadow">
+                        <aside class="left_widgets p_filter_widgets sidebar_box_shadow">
                             <div class="l_w_title">
-                                <h3>Browse Categories</h3>
+                                <h4 style=" text-align: center; "><b>Costumes & Equipments Filter</b></h4>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
-                                    <li>
-                                        <a href="#">Edit Costumes</a>
-                                    </li>
-                                    <li class="sub-menu">
-                                        <a href="#Electronics" class=" d-flex justify-content-between">
-                                            Generate Report
-                                            <div class="right ti-plus"></div>
-                                        </a>
-                                        <ul>
-                                            <li>
-                                                <a href="#Electronics">Rented Costumes</a>
-                                            </li>
-                                            <li>
-                                                <a href="#Electronics">Weekly</a>
-                                            </li>
-											<li>
-                                                <a href="#Electronics">Semester</a>
-                                            </li>
-                                        </ul>
+                                    </li>  
+									<li>
+									  <input type="radio" id="all" class="sort" name="gender" value="all" checked="checked">
+									  <label for="all">All</label><br>
                                     </li>
                                     <li>
-                                        <a href="#Electronics">Rented Costumes</a>
+										<input type="radio" id="costumes" class="sort" name="gender" value="costumes">
+										<label for="male">Costumes</label><br>
                                     </li>
                                     <li>
-                                        <a href="#Electronics">Available Costumes</a>
-                                    </li>
+									  <input type="radio" id="equipments" class="sort" name="gender" value="equipments">
+									  <label for="female">Sports Equipments</label><br>
                                 </ul>
                             </div>
                         </aside>
-						
                     </div>
                 </div>
                 <div class="col-lg-9">
@@ -75,7 +33,7 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu product_bar_item">
-                                    <h2>Costumes (...)</h2>
+                                    <h2>Costumes & Equipments</h2>
                                 </div>
                                 <div class="product_top_bar_iner product_bar_item d-flex">
                                     <div class="product_bar_single">
@@ -87,101 +45,167 @@
                                         </select> -->
                                     </div>
                                     <div class="product_bar_single">
-                                       <button type="submit" class="btn_3">
-                                        Add Costume
-                                    </button>
-                                    </div>
+									<?php if( $admin_id == 1) {?>
+										<button type="button" class="btn btn_3 btn-info btn-lg" data-toggle="modal" data-target="#addCostumeModal">Add Item</button>
+                                    <?php }?>
+									</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="<?php echo base_url('assets/img/category/category_1.png'); ?>" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-pencil-alt"></i></a></li>
-                                            
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="<?php echo base_url('/single-costume'); ?> "><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-						<div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="<?php echo base_url('assets/img/category/category_2.png'); ?>" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-pencil-alt"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="<?php echo base_url('/single-costume'); ?>"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>                        <div class="col-lg-4 col-sm-6">
-                            <div class="single_category_product">
-                                <div class="single_category_img">
-                                    <img src="<?php echo base_url('assets/img/category/category_3.png'); ?>" alt="">
-                                    <div class="category_social_icon">
-                                        <ul>
-                                            <li><a href="#"><i class="ti-pencil-alt"></i></a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="category_product_text">
-                                        <a href="<?php echo base_url('/single-costume'); ?>"><h5>Long Sleeve TShirt</h5></a>
-                                        <p>$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 text-center">
-                            <a href="#" class="btn_2">More Items</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!--================End Category Product Area =================-->
+						
+						<?php if (sizeof($costumes) > 0) : ?>
+							<?php foreach($costumes as $costume) : ?>
+							
+								<div class="col-lg-4 col-sm-6 <?php echo $costume->item_type?>">
+									<div class="single_category_product">
+										<div class="single_category_img">
+											<?php 
+												echo '<img style=" height: 254px; object-fit: cover; " class="rounded mx-auto d-block img-thumbnail"  src="data:image/jpeg;base64,'.base64_encode($costume->image ).'"/>'; 
+											?>
+											<div class="category_social_icon">
+												<ul>
+													<li><a href="<?php echo base_url('single_costume/edit/').$costume->id; ?>"><i class="ti-pencil-alt"></i></a></li>
+												</ul>
+											</div>
+											<div class="category_product_text">
+												<a href="<?php echo base_url('single_costume/view/').$costume->id; ?> ">
+													<h5> <?php echo $costume->name ?> </h5>
+												</a>
+												<?php echo ($costume->item_type === 'Costume' ? '
+													<p>₱'.number_format($costume->rental_prize, 2 ).'</p>
+												': ''); ?>
+												<label>qty:<?php echo number_format( $costume->qty )  ?> </labelP>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						<?php endif; ?>
 
-    
-    <!-- subscribe_area part start-->
-    <section class="instagram_photo">
-        <div class="container-fluid>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="instagram_photo_iner">
-                        <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_1.png" alt="">
-                            <a href="#"><i class="ti-instagram"></i></a> 
-                        </div>
-                        <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_2.png" alt="">
-                            <a href="#"><i class="ti-instagram"></i></a> 
-                        </div>
-                        <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_3.png" alt="">
-                            <a href="#"><i class="ti-instagram"></i></a> 
-                        </div>
-                        <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_4.png" alt="">
-                            <a href="#"><i class="ti-instagram"></i></a> 
-                        </div>
-                        <div class="single_instgram_photo">
-                            <img src="img/instagram/inst_5.png" alt="">
-                            <a href="#"><i class="ti-instagram"></i></a> 
+                        <div class="col-lg-12 text-center">
+                            <a href="#" class="btn_2">Back to top</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!--::subscribe_area part end::-->
+
+<!--================ Add Product =================-->	
+
+<!-- Modal -->
+	<div id="addCostumeModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title"> </h4>
+				</div>
+				<div class="col-lg-12 modal-body">
+					<div class="tracking_box_inner">
+						<?php echo form_open_multipart('inventory/upload'); ?>
+							<div class="col-md-12 form-group box">
+								<div class="js--image-preview"></div>
+								<div class="input-field">
+									<label class="active">Photos</label>
+									<div class="input-images-1" style="padding-top: .5rem;"></div>
+								</div>
+								<span style="font-size: 12px; color: #868282;">(Maximum of 1MB File Size)</span>
+								<p id="demo"></p>
+							</div>
+						<div class="col-md-12 form-group">
+							<input type="text" class="form-control" id="costume_name" name="item_name" placeholder="Item Name" required>
+						</div>
+						<div class="col-md-12 form-group">
+							<input type="number" class="form-control" id="costume_qty" name="item_qty" placeholder="Qty.." required>  
+						</div>
+						<div class="col-md-12 form-group p_star">
+							<label>Item Type: </label>
+							<div class="radio col-md-12 form-group p_star">				
+								<label><input id="cs" type="radio" name="item_type" value="Costume" >Costume</label>
+							<label><input  id="sp" type="radio" name="item_type" value="Sports Equipment">Sports Equipment</label>
+							</div>
+						</div>
+						<div class="col-md-12 form-group p_star">
+							<label>For: </label>
+							<div class="radio col-md-12 form-group p_star">
+								<label><input id="men" type="radio" name="for_gender" value="Male" >MEN</label>
+								<label><input  id="women" type="radio" name="for_gender" value="Female">WOMEN</label>
+								<label><input id="cs" type="radio" name="for_gender" value="Both" >BOTH</label>
+							</div>
+						</div>
+						<div class="col-md-12 form-group">
+							<label id="prize-label">Rental Price</label>
+							<input type="number" class="form-control" id="costume_prize" value="0" name="item_prize" required>
+						</div>
+						<div class="col-md-12 form-group">
+							<textarea type="text" class="form-control" id="description" name="description" placeholder="Definition" required></textarea>
+						</div>
+						<div class="col-md-12 form-group">
+							<button  type="	" value="submit" class="btn_3 save ">Save</button>
+						</div>
+						</form>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+<script>
+
+
+
+
+$(document).ready(function(){ 
+
+
+  // $(".btn_3").click(function () {
+    // alert("Hello!");
+  // });
+
+
+	$('.input-images-1').imageUploader();
+
+
+	$("#sp").click(function(){
+		//$('#costume_prize').val('0');
+		$('#prize-label').hide();
+		$('#costume_prize').hide();
+	});
+	
+	$("#cs").click(function(){
+		$('#costume_prize').show();
+	});
+	
+	   $('.sort').click(function () {
+		console.log( $(this).val() );
+			if( $(this).val() == "costumes" ){
+				 $('.Equipment').hide();
+				 $('.Costume').show();
+				 // $count =$('.Female').length;
+				 // document.getElementById("sort").innerHTML = "Womens "+"("+ $count+")";
+			}
+			if( $(this).val() == "equipments" ){
+				 $('.Equipment').show();
+				 $('.Costume').hide();
+				 // $count =$('.Male').length;
+				 // document.getElementById("sort").innerHTML = "Mens "+"("+ $count+")";
+			}
+			if( $(this).val() == "all" ){
+				 $('.Equipment').show();
+				 $('.Costume').show();
+				 // document.getElementById("sort").innerHTML = "All "+"("+ $count+")";
+			}
+			 
+		   });
+	
+	
+});
+
+</script>
