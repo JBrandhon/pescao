@@ -37,15 +37,15 @@ class User extends CI_Model{
                     $this->db->limit($params['limit']); 
                 } 
                  
-                $query = $this->db->get(); 
-                $result = ($query->num_rows() > 0)?$query->result_array():FALSE; 
+                $query 		= $this->db->get(); 
+                $result 	= ($query->num_rows() > 0)?$query->result_array():FALSE; 
             } 
         } 
          
         // Return fetched data 
         return $result; 
     } 
-     
+    
     /* 
      * Insert user data into the database 
      * @param $data data to be inserted 

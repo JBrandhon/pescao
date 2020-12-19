@@ -2,7 +2,7 @@
     <!--================Category Product Area =================-->
     <section class="cat_product_area section-top border_top">
         <div class="container">
-            <div class="row">
+            <div class="row">			
                 <div class="col-lg-3">
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets sidebar_box_shadow">
@@ -51,8 +51,16 @@
 									</div>
                                 </div>
                             </div>
+							<div class="input-group">
+								<input type="text"  name="search" id="search_text" class="form-control" placeholder="Search this blog">
+								<div class="input-group-append">
+								  <button class="btn btn-secondary" type="button">
+									<i class="fa fa-search"></i>
+								  </button>
+								</div>
+							</div>
                         </div>
-						
+						<div id="result" class=""></div>
 						<?php if (sizeof($costumes) > 0) : ?>
 							<?php foreach($costumes as $costume) : ?>
 							
@@ -144,7 +152,7 @@
 							<textarea type="text" class="form-control" id="description" name="description" placeholder="Definition" required></textarea>
 						</div>
 						<div class="col-md-12 form-group">
-							<button  type="	" value="submit" class="btn_3 save ">Save</button>
+							<button  type="	" value="submit" class="btn_3 handle-save-item save ">Save</button>
 						</div>
 						</form>
 					</div>
@@ -163,6 +171,43 @@
 
 
 $(document).ready(function(){ 
+
+	$( '#search_text' ).keyup( function(){
+		
+		var text = $(this).val();
+		res = new Array();
+		
+		if( text != '' ){
+			
+			$.ajax({
+				 method: "POST",
+				 // url: "/pescao/inventory/item_lost",
+				 url: "/pescao/inventory/search",
+				 data: { search : text},
+				dataType: 'text',
+				 success: function(data){
+					res = data;
+					//$('#result').html(typeof(data));
+					console.log(res);
+				 }
+			});
+			
+		} else {
+			$('#result').html('');
+		}
+		
+	});
+
+	
+	$(".handle-save-item").click(function(e) {
+		
+		let val = $('input[type="file"]').val()
+		
+		if( val == '' ){	
+			alert( 'Picture must not empty!' );
+			e.preventDefault();
+		} 
+	});
 
 
   // $(".btn_3").click(function () {

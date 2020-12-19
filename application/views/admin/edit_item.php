@@ -7,19 +7,25 @@
 			<div id="vertical">
 			<div data-thumb="img/product_details/prodect_details_1.png">
 				<div class="input-field">
-					<label class="active">Photos</label>
 				</div>
-					<div class="input-images-1" style="padding-top: .5rem;"></div>				
-					<?php for ($x = 0; $x < count($img); $x++) {
-					
-						var_dump( $img[$x]['id'] );
-						
-						?>
-						<?php
-						
-						 
-					
-					} ?>
+						<label class="active">Add Photos</label>
+						<div class="input-images-1" style="padding-top: .5rem; margin-bottom: 30px">
+						<span style="font-size: 12px; color: #868282;">(Maximum of 1MB File Size)</span></div>
+						<label class="active">Photos <span>(hover to remove photo)</span></label>
+						<div class="image-uploader has-files">
+						<div class="uploaded" >
+						<input class="item-delete" value="" name="deleteItem" hidden/>
+					<?php
+						for ($x = 0; $x < count($img); $x++) {?>
+							<div class="uploaded-image">
+								<?php  echo '<img style="width: 100%; object-fit: cover; " class="rounded mx-auto d-block img-thumbnail" src="data:image/jpeg;base64,'.base64_encode( $img[$x]['image'] ).'"/>'; ?>
+								<input class="item-value" value="<?php echo $img[$x]['id'] ?>" name="iditem"  hidden/>
+								<div class="delete-image"><i class="material-icons">clear</i></div>
+							</div>
+					<?php	}
+					?>
+						</div>
+					</div>
 
 			  </div>
 			</div>
@@ -41,7 +47,6 @@
 							<option value="Both" <?php echo ( $single_costume[0]['item_type'] == 'Both' ? 'selected':'' ) ?> >Both</option>
 							<option value="Costume" <?php echo ( $single_costume[0]['item_type'] == 'Costume' ? 'selected':'' ) ?> >Costume</option>
 							<option value="Sports Equipment" <?php echo ( $single_costume[0]['item_type'] == 'Sports Equipment' ? 'selected':'' ) ?> >Sports Equipment</option>
-							<option value="Both" <?php echo ( $single_costume[0]['item_type'] == 'Both' ? 'selected':'' ) ?> >Both</option>
 						 </select>
 					</div>
 				</div>
@@ -83,7 +88,7 @@
 					  There are currently <?php echo $single_costume[0]['qty'] ?> pieces of this item remaining.
 					</div>
 					<div class="add_to_cart">
-						<button type="submit" value="submit" id="save" class="genric-btn info circle"> Save</button>
+						<button type="submit" value="submit" id="save" class="genric-btn handle-save-item info circle"> Save</button>
 					</div>
 			   </div>
 			</div>
@@ -228,11 +233,20 @@
   
   <script>
  jQuery(document).ready(function($){ 
+	
+	
+	var del= [];
+	$('.delete-image').click( function(){
+		$(this).parent().fadeOut();
+		
+		console.log($(this).prev().val());
+		del.push( $(this).prev().val() );
+		var t = del.toString();
+		
+		$('.item-delete').val( t );
 
+	})
 
-  // $(".btn_3").click(function () {
-    // alert("Hello!");
-  // });
 
 
 	$('.input-images-1').imageUploader();

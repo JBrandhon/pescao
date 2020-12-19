@@ -50,7 +50,7 @@
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-11">
                     <nav class="navbar navbar-expand-lg navbar-light">
-                        <a class="navbar-brand" href="<?php echo base_url('/'); ?>"> PESCAO </a>
+                        <a class="navbar-brand" href="<?php echo $admin_id  ?   base_url("admin/dashboard/") : base_url('/')  ; ?>"> PESCAO </a>
 						 <img style=" max-width: 100%; width: auto; height: 61px;" id="image" src=" <?php echo base_url('assets/img/Northwestern_Mindanao_State_College_of_Science_and_Technology.png'); ?> " alt="logo" />
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                             data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"

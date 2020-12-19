@@ -44,6 +44,7 @@
 			 $page = "edit_item.php";
 
 			 $img 				= $this->model->get_image($costumeID);
+
 			 $single_costume    = $this->model->get($costumeID);
 			
 			$this->load->view('elements/header', [

@@ -18,6 +18,8 @@
 		
 		public function edit()
 		{
+			$row_number_id = strip_tags($this->input->post('deleteItem'));
+			
 			$inventoryData = array( 
                 'name' 					=> strip_tags($this->input->post('item_name')),
 				'item_type' 			=> strip_tags($this->input->post('type')),				
@@ -28,8 +30,12 @@
                 'id' 					=> strip_tags($this->input->post('product-id')),
                 'total_envintory_qty' 	=> strip_tags($this->input->post('total_envintory_qty')),
             ); 
-	
-			//$this->model->delete_image($inventoryData['id']);
+			
+			$insert = $this->model->update($inventoryData);
+			
+			if(!empty($row_number_id)){
+				$this->model->delete_image(strip_tags($this->input->post('deleteItem')));
+			}
 			
 			$count = count($_FILES['images']['name']);
 			$tmp;
@@ -37,12 +43,21 @@
 			for($i=0;$i<$count;$i++){
 
 				if(!empty($_FILES['images']['name'][$i])){
-					$this->model->store_image(  $this->input->post('product-id'), file_get_contents($_FILES["images"]["tmp_name"][$i]) );
+					echo ( $_FILES["images"]["name"][$i] );
+					$this->model->store_image(  $inventoryData['id'], file_get_contents($_FILES["images"]["tmp_name"][$i]) );
 					
 				}
 			}
 			
-			//redirect(site_url('/admin/dashboard'), 'refresh');
+			if ($this->model->store() === TRUE) {
+				$notification = '<div class="alert alert-success">Success uploading <strong>'. $_FILES['userfile']['name'] . '</strong> to DB.</div>';
+			} else {
+				$notification = '<div class="alert alert-danger">Failed uploading image.</div>';
+			}
+
+			$this->session->set_flashdata('notification', $notification);
+			
+			redirect(site_url('/admin/dashboard'), 'refresh');
 		}
 		
 		public function returnItem ()
@@ -61,6 +76,14 @@
 			$data = $this->input->post('data');
 			print_r($data);
 			return $update = $this->model->item_lost( $data );
+		}
+
+		public function search ()
+		{	
+			$data = $this->input->post('data');
+			print_r($data);
+			die();
+			// return $update = $this->model->search_data( $data );
 		}
 
 		// public function delete($id)
@@ -109,7 +132,7 @@
 			for($i=0;$i<$count;$i++){
 
 				if(!empty($_FILES['images']['name'][$i])){
-					echo ( $_FILES["images"]["name"][$i] );
+					//echo  $_FILES["images"]["name"][$i];
 					$this->model->store_image(  $insert, file_get_contents($_FILES["images"]["tmp_name"][$i]) );
 					
 				}
@@ -129,6 +152,13 @@
 				
 	
 			redirect(site_url('/admin/dashboard'), 'refresh');
+		}
+		
+		public function search_item (){	
+		
+			echo $_POST['search'];
+			
+		
 		}
 
 	}

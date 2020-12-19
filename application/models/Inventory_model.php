@@ -118,7 +118,7 @@
 		
 		public function delete_image( $item_id ){
 
-			$this->db->query("delete  from tbl_images where item_id ='".$item_id."'");
+			$this->db->query("delete  from tbl_images where id IN (" .$item_id. ")");
 	
 		}
 		
@@ -129,15 +129,21 @@
 			return $insert;
 	
 		}
+		
+		public function search_data( $key){
+			// $select = $this->db->query(" SELECT * FROM  ");
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.name LIKE '".$key."%' GROUP BY tbl_images.item_id;  ");
+			echo $select;
+			// return $select->result();
+	
+		}
 
 		public function store($data = array() )
 		{
 			 
 			
 			try {
-				if (
-					empty($data)
-				) {
+				if ( empty($data) ) {
 					return FALSE;
 				} else {
 					// $action = $this->db->insert($this->table, $this);
