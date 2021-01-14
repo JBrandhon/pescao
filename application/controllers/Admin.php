@@ -436,9 +436,9 @@ class Admin extends CI_Controller {
     }
 
 	public function rentors(){ 
-        // if(!$this->isUserLoggedIn){ 
-            // redirect('admin/login'); 
-		// }
+        if(!$this->isUserLoggedIn){ 
+            redirect('admin/login'); 
+		}
 	
 		
 		// $this->load->view('elements/header', [
@@ -449,12 +449,12 @@ class Admin extends CI_Controller {
 				// 'admin_id' => $this->session->userdata('userId')
 				// ]); 
         // $this->load->view('elements/footer'); 
+		
 		$this->load->view('elements/header', [
 			'admin_id' => $this->session->userdata('userId')
 		]); 
-        // $this->load->view('admin/rentor_report',[ 
         $this->load->view('admin/rentors',[ 
-				'records' => $this->reports->get_report(),
+				'rentors' => $this->reports->get_report(),
 				'admin_id' => $this->session->userdata('userId')
 				]); 
         $this->load->view('elements/footer'); 
