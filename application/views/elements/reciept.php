@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
 	
-	<title>Invoice</title>
+	<title>Transaction Record</title>
 	
 	<link rel='stylesheet' type='text/css' href='css/' />
 	<link rel="stylesheet" href=" <?php echo base_url('assets/reciept/css/style.css'); ?>">
@@ -17,16 +17,16 @@
 <body>
 	<div id="page-wrap">
 
-		<textarea id="header">INVOICE</textarea>
+		<textarea id="header" style="letter-spacing: 10px;">Transaction Record</textarea>
 		
 		<div id="identity">
 		   <?php $temp = 0 ?>
 		   <input type="text" class="form-control" id="id" name="ID" value="<?php echo ( sizeof($rentee) > 0  ? $rentee[0]['id'] : '' ) ?>" hidden/>
-           <?php echo $rentee[0]['last_name']. ' '. $rentee[0]['first_name'] ?>
+           Name : <?php echo $rentee[0]['last_name']. ' '. $rentee[0]['first_name'] ?>
 		   <br>
-           <?php echo $rentee[0]['address'] ?>
+           Address: <?php echo $rentee[0]['address'] ?>
 		   <br>
-           <?php echo $rentee[0]['phone'] ?>
+           Phone Number: <?php echo $rentee[0]['phone'] ?>
 			<br>
 			<br>
 
@@ -48,13 +48,13 @@
  
             <table id="meta">
                 <tr>
-                    <td class="meta-head">Invoice #</td>
+                    <td class="meta-head">Reciept Number</td>
                     <td><?php echo $rentee[0]['reciept_number'] ?></td>
                 </tr>
                 <tr>
 
                     <td class="meta-head">Date</td>
-                    <td id="date"></td>
+                    <td><?php echo date('Y-m-d'); ?></td>
                 </tr>
 
             </table>
@@ -78,42 +78,83 @@
 						  <td class="item-name"><div class="delete-wpr"><?php echo $item['name'] ?></div></td>
 						  <td class="item-name"><div class="delete-wpr"><?php echo $item['description'] ?></div></td>
 						  <td class="item-name"><div class="delete-wpr"><?php echo $item['item_type'] ?></div></td>
-						  <td class="item-name"><div class="delete-wpr">₱<?php echo number_format($item['rental_prize']) ?></div></td>
+						  <td class="item-name"><div class="delete-wpr">₱<?php echo number_format($item['rental_prize'], 2) ?></div></td>
 						  <td class="item-name"><div class="delete-wpr"><?php echo $item['rented_qty'] ?></div></td>
-						  <td class="item-name"><div class="delete-wpr payable">₱<?php echo number_format($item['payable']); $temp += $item['payable'];?></div></td>
+						  <td class="item-name"><div class="delete-wpr payable">₱<?php echo number_format($item['payable'],2); $temp += $item['payable'];?></div></td>
 
 					  </tr>
 				
 				<?php endforeach; ?>
 			 <?php endif; ?>
 
-
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
-		      <td colspan="2" class="total-line balance">Balance Due</td>
-		      <td class="total-value balance"><div class="due"><?php echo $temp; ?></div></td>
+		      <td colspan="2" class="total-line balance">Date Rented/Borrowed :</td>
+		      <td class="total-value balance"><div class="due"><?php echo $rentee[0]['date']; ?></div></td>
 		  </tr>
 		  <tr>
+		      <td colspan="3" class="blank"> </td>
+		      <td colspan="2" class="total-line balance">Balance Due :</td>
+		      <td class="total-value balance"><div class="due">₱<?php echo number_format( $temp, 2 ) ?></div></td>
+		  </tr>
+		  <!--<tr>
 		      <td colspan="3" class="blank"> </td>
 		      <td colspan="2" class="total-line balance">Date Return :</td>
-		      <td class="total-value balance"><div class="due"></div></td>
-		  </tr>
+		      <td class="total-value balance"><div class="due"><?php echo date('Y-m-d'); ?></div></td>
+		  </tr>-->
+		  
+		   <?php
+				
+				$date  			= date('Y-m-d');
+				
+				$startTimeStamp = strtotime($rentee[0]['date']);
+				$endTimeStamp 	= strtotime($date);
+				//$startTimeStamp = strtotime('2020-01-01');
+				//$endTimeStamp 	= strtotime('2020-01-11');
+
+				$timeDiff		= abs($endTimeStamp - $startTimeStamp);
+
+				$numberDays 	= $timeDiff/86400;  // 86400 seconds in one day
+
+				// and you might want to convert to integer
+				$numberDays 	= intval($numberDays);
+								
+				$sum 			= 0;
+									
+				if( $numberDays >= '10' ){
+										
+					$start	= 1;
+					$end	= $numberDays - 9;
+					
+					for( $x = $start; $x <= $end; $x++ ){
+						
+						$sum += 200;
+						
+					}
+					
+				}
+				
+				
+				$total = $temp + $sum;
+				
+			  ?>
+		  
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
 		      <td colspan="2" class="total-line balance">Penalty :</td>
-		      <td class="total-value balance"><div class="due"></div></td>
+		      <td class="total-value balance"><div class="due">₱<?php echo number_format( $sum, 2 ) ?></div></td>
 		  </tr>
 		  <tr>
 		      <td colspan="3" class="blank"> </td>
 		      <td colspan="2" class="total-line balance">Total :</td>
-		      <td class="total-value balance"><div class="due"></div></td>
+		      <td class="total-value balance"><div class="due">₱<?php echo number_format( $total, 2 ) ?></div></td>
 		  </tr>
 		
 		</table>
 		
 		<div id="terms">
 		  <h5>Terms</h5>
-		  <textarea>NET 30 Days. Finance Charge of 1.5% will be made on unpaid balances after 30 days.</textarea>
+		  <textarea>The Rentor is given 9 days to return the items, there will be a penalty of 200 pesos per day effective right after the due date.</textarea>
 		</div>
 		<button  onclick="window.print()">Print this page</button>
 	

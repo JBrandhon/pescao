@@ -35,6 +35,7 @@
                                     <button type="submit" name="loginSubmit" value="LOGIN" class="btn_3">
                                         log in
                                     </button>
+									<a class="dropdown-item" href="<?php echo base_url('/admin/guestacc'); ?>">Register Guest Account</a>
                                 </div>
                             </form>
                         </div>

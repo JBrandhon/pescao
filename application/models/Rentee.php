@@ -43,6 +43,19 @@
 			//$rentor = $this->db->query("SELECT * FROM tbl_rentee WHERE EXISTS (SELECT * FROM  tbl_history WHERE  tbl_history.reciept_number = tbl_rentee.reciept_number )");
 			return $q->result();
 		}
+		
+		public function update_penalty($id, $renteeData){
+		
+			extract($renteeData);
+			
+			$this->db->where('id', $id);
+			$this->db->update('tbl_rentee', array('penalty' => $penalty));
+			return true;
+			
+			
+			return true;
+	
+		}
 
 	}
 ?>		

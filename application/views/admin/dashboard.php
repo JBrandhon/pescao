@@ -7,7 +7,7 @@
                     <div class="left_sidebar_area">
                         <aside class="left_widgets p_filter_widgets sidebar_box_shadow">
                             <div class="l_w_title">
-                                <h4 style=" text-align: center; "><b>Costumes & Equipments Filter</b></h4>
+                                <h4 style=" text-align: center; "><b>Categories</b></h4>
                             </div>
                             <div class="widgets_inner">
                                 <ul class="list">
@@ -16,13 +16,30 @@
 									  <input type="radio" id="all" class="sort" name="gender" value="all" checked="checked">
 									  <label for="all">All</label><br>
                                     </li>
-                                    <li>
-										<input type="radio" id="costumes" class="sort" name="gender" value="costumes">
-										<label for="male">Costumes</label><br>
+									<li>
+										<input type="radio" id="barong" class="sort" name="gender" value="barong">
+										<label for="male">Barong</label><br>
                                     </li>
-                                    <li>
-									  <input type="radio" id="equipments" class="sort" name="gender" value="equipments">
-									  <label for="female">Sports Equipments</label><br>
+									<li>
+										<input type="radio" id="dalit-custome" class="sort" name="gender" value="dalit_costume">
+										<label for="male">Dalit Costume</label><br>
+                                    </li>
+									<li>
+										<input type="radio" id="accesories" class="sort" name="gender" value="accesories">
+										<label for="male">Accesories</label><br>
+                                    </li>
+									<li>
+										<input type="radio" id="male-attr" class="sort" name="gender" value="male_attire">
+										<label for="male">Male Attire</label><br>
+                                    </li>
+									<li>
+										<input type="radio" id="female-atr" class="sort" name="gender" value="female_attire">
+										<label for="male">Female Attire</label><br>
+                                    </li>
+									<li>
+										<input type="radio" id="gown" class="sort" name="gender" value="gown">
+										<label for="male">Gown</label><br>
+                                    </li>
                                 </ul>
                             </div>
                         </aside>
@@ -37,62 +54,75 @@
                                 </div>
                                 <div class="product_top_bar_iner product_bar_item d-flex">
                                     <div class="product_bar_single">
-                                       <!-- <select class="wide">
-                                            <option data-display="Default sorting">Default sorting</option>
-                                            <option value="1">Some option</option>
-                                            <option value="2">Another option</option>
-                                            <option value="3">Potato</option>
-                                        </select> -->
-                                    </div>
-                                    <div class="product_bar_single">
 									<?php if( $admin_id == 1) {?>
 										<button type="button" class="btn btn_3 btn-info btn-lg" data-toggle="modal" data-target="#addCostumeModal">Add Item</button>
                                     <?php }?>
 									</div>
                                 </div>
                             </div>
-							<div class="input-group">
-								<input type="text"  name="search" id="search_text" class="form-control" placeholder="Search this blog">
-								<div class="input-group-append">
-								  <button class="btn btn-secondary" type="button">
-									<i class="fa fa-search"></i>
-								  </button>
-								</div>
+							<div class="input-group" style=" margin: 20px 0;">
+								<input type="text" style=" border-radius: .25rem; margin-left: 400px; margin-right: 10px;"  name="search" id="search_text" class="form-control" placeholder="Search">
+								<button class="search_btn"
+									style="
+									border-radius: .25rem;		
+									display: inline-block;
+									padding: 5px 15px;
+															background-color: #2f7dfc;
+									border: 1px solid #f4f4f4;
+									font-size: 15px;
+									color: #fff;
+									font-weight: 400;
+									border: 1px solid #2f7dfc;
+									-webkit-transition: 0.5s;
+									transition: 0.5s;" 
+									class="search-button"><i class="fas fa-search"></i> Search
+								</button>
 							</div>
                         </div>
-						<div id="result" class=""></div>
-						<?php if (sizeof($costumes) > 0) : ?>
-							<?php foreach($costumes as $costume) : ?>
-							
-								<div class="col-lg-4 col-sm-6 <?php echo $costume->item_type?>">
-									<div class="single_category_product">
-										<div class="single_category_img">
-											<?php 
-												echo '<img style=" height: 254px; object-fit: cover; " class="rounded mx-auto d-block img-thumbnail"  src="data:image/jpeg;base64,'.base64_encode($costume->image ).'"/>'; 
-											?>
-											<div class="category_social_icon">
-												<ul>
-													<li><a href="<?php echo base_url('single_costume/edit/').$costume->id; ?>"><i class="ti-pencil-alt"></i></a></li>
-												</ul>
-											</div>
-											<div class="category_product_text">
-												<a href="<?php echo base_url('single_costume/view/').$costume->id; ?> ">
-													<h5> <?php echo $costume->name ?> </h5>
-												</a>
-												<?php echo ($costume->item_type === 'Costume' ? '
-													<p>₱'.number_format($costume->rental_prize, 2 ).'</p>
-												': ''); ?>
-												<label>qty:<?php echo number_format( $costume->qty )  ?> </labelP>
-												
+						<div class="search-page-controller" style="display: contents;" >
+						</div>
+						<div class="main-page-controller" style="display: contents;" >
+							<div class="main-page" style="display: contents;">
+								<?php if (sizeof($costumes) > 0) : ?>
+									<?php foreach($costumes as $costume) : 
+									
+									if( $costume->item_status != 'damage'){
+									?>
+									
+										<div class="col-lg-4 col-sm-6  <?php echo $costume->item_type?>">
+											<div class="single_category_product">
+												<div class="single_category_img">
+													<?php 
+														echo '<img style=" height: 254px; object-fit: cover; " class="rounded mx-auto d-block img-thumbnail"  src="data:image/jpeg;base64,'.base64_encode($costume->image ).'"/>'; 
+													?>
+													<div class="category_social_icon">
+														<ul>
+															<li><a href="<?php echo base_url('single_costume/edit/').$costume->id; ?>"><i class="ti-pencil-alt"></i></a></li>
+														</ul>
+													</div>
+													<div class="category_product_text">
+														<a href="<?php echo base_url('single_costume/view/').$costume->id; ?> ">
+															<h5> <?php echo $costume->name ?> </h5>
+														</a>
+														<?php echo ($costume->item_type === 'Costume' ? '
+															<p>₱'.number_format($costume->rental_prize, 2 ).'</p>
+														': ''); ?>
+														<label>Quantity: <?php echo number_format( $costume->qty )  ?> </labelP>
+														
+													</div>
+												</div>
 											</div>
 										</div>
-									</div>
-								</div>
-							<?php endforeach; ?>
-						<?php endif; ?>
-
-                        <div class="col-lg-12 text-center">
-                            <a href="#" class="btn_2">Back to top</a>
+											
+									<?php } endforeach; ?>
+								<?php endif; ?>
+							</div>
+							<div class="col-lg-12 page-link-ctrl text-center">
+								<div class="page-link"><?php echo $this->pagination->create_links(); ?></div>
+							</div>
+						</div>
+                        <div class="col-lg-12 page-link-ctrl text-center">
+							<a href="#" class="btn_2">Back to top</a>
                         </div>
                     </div>
                 </div>
@@ -137,11 +167,23 @@
 							</div>
 						</div>
 						<div class="col-md-12 form-group p_star">
+							<label>Category:</label>
+							<select name="category" class="form-control category-ctrl">
+								<option value="nodata">--Choose--</option>
+								<option value="barong"> Barong</option>
+								<option value="dalit costume">Dalit Costume</option>
+								<option value="accesories">Accesories</option>
+								<option value="male attire">Male Attire</option>
+								<option value="female attire">Female Attire</option>
+								<option value="gown">Gown</option>
+							</select>
+						</div>
+						<div class="col-md-12 form-group p_star">
 							<label>For: </label>
 							<div class="radio col-md-12 form-group p_star">
-								<label><input id="men" type="radio" name="for_gender" value="Male" >MEN</label>
-								<label><input  id="women" type="radio" name="for_gender" value="Female">WOMEN</label>
-								<label><input id="cs" type="radio" name="for_gender" value="Both" >BOTH</label>
+								<label><input id="men" type="radio" name="for_gender" value="male" >Male</label>
+								<label><input  id="women" type="radio" name="for_gender" value="female">Female</label>
+								<!--<label><input id="cs" type="radio" name="for_gender" value="Both" >BOTH</label>-->
 							</div>
 						</div>
 						<div class="col-md-12 form-group">
@@ -164,7 +206,6 @@
 			</div>
 		</div>
 	</div>
-
 <script>
 
 
@@ -172,34 +213,44 @@
 
 $(document).ready(function(){ 
 
-	$( '#search_text' ).keyup( function(){
-		
-		var text = $(this).val();
+	
+
+	$('#search_text').val('');
+	
+	$( '.search_btn' ).click( function(){
+
+		var text = $('#search_text').val();
 		res = new Array();
 		
 		if( text != '' ){
-			
+			$('.main-page-controller').hide();	
+			$('.search-page-controller').show();
 			$.ajax({
 				 method: "POST",
-				 // url: "/pescao/inventory/item_lost",
 				 url: "/pescao/inventory/search",
 				 data: { search : text},
-				dataType: 'text',
 				 success: function(data){
-					res = data;
-					//$('#result').html(typeof(data));
-					console.log(res);
+					$('.search-page-controller').html(data);
 				 }
 			});
 			
 		} else {
-			$('#result').html('');
+			$('.search-page-controller').hide();
+			$('.main-page-controller').show();
 		}
 		
 	});
-
-	
+	$('#example').DataTable( {
+        "pagingType": "full_numbers"
+    } );
 	$(".handle-save-item").click(function(e) {
+		let test = $('.category-ctrl :selected').text();
+		if( test == '--Choose--' ){
+			alert( 'Pick Category!' );
+			
+			$('.category-ctrl').css("border","1px solid red");
+			e.preventDefault();
+		}
 		
 		let val = $('input[type="file"]').val()
 		
@@ -209,17 +260,9 @@ $(document).ready(function(){
 		} 
 	});
 
-
-  // $(".btn_3").click(function () {
-    // alert("Hello!");
-  // });
-
-
 	$('.input-images-1').imageUploader();
 
-
 	$("#sp").click(function(){
-		//$('#costume_prize').val('0');
 		$('#prize-label').hide();
 		$('#costume_prize').hide();
 	});
@@ -228,29 +271,14 @@ $(document).ready(function(){
 		$('#costume_prize').show();
 	});
 	
-	   $('.sort').click(function () {
-		console.log( $(this).val() );
-			if( $(this).val() == "costumes" ){
-				 $('.Equipment').hide();
-				 $('.Costume').show();
-				 // $count =$('.Female').length;
-				 // document.getElementById("sort").innerHTML = "Womens "+"("+ $count+")";
-			}
-			if( $(this).val() == "equipments" ){
-				 $('.Equipment').show();
-				 $('.Costume').hide();
-				 // $count =$('.Male').length;
-				 // document.getElementById("sort").innerHTML = "Mens "+"("+ $count+")";
-			}
-			if( $(this).val() == "all" ){
-				 $('.Equipment').show();
-				 $('.Costume').show();
-				 // document.getElementById("sort").innerHTML = "All "+"("+ $count+")";
-			}
-			 
-		   });
+	$('.sort').click(function () {	
 	
-	
+		var data = $(this).val();
+		data
+
+		window.location.href = window.location.origin + "/pescao/index.php/admin/dashboard/?" + data;
+		
+	});
 });
 
 </script>

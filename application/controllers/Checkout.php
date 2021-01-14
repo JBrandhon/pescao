@@ -24,9 +24,26 @@
 			} 
 		} 
 		
-		public function rentee(){
-			$this->session->set_userdata('sessionReciept', $this->reciept(8));
+		/*public function cronJob(){
+			
+			$id = $_POST['id'];
+			
+			$penalty = 200;
+			
 			$renteeData = array(
+				'penalty'			=> $penalty,
+			);
+			return $this->rentee->update_penalty($id, $renteeData); 
+		}*/
+		
+		public function rentee(){
+			
+			$date = date('Y-m-d');
+			
+			$this->session->set_userdata('sessionReciept', $this->reciept(8));
+						
+			$renteeData = array(
+				'date'			=> $date,
 				'first_name' =>  strip_tags( $this->input->post('first_name') ),
 				'last_name' =>  strip_tags( $this->input->post('last_name') ),
 				'email' =>  strip_tags( $this->input->post('email') ),
@@ -37,9 +54,8 @@
 				'reciept_number' =>  $this->session->userdata('sessionReciept'),
 				'lessor' =>  $this->session->userdata('userId'),
 			);
-			print_r($renteeData);
-			 // die();
-			 return $this->rentee->saveRentee($renteeData);
+			
+			return $this->rentee->saveRentee($renteeData);
 
 		}
 		

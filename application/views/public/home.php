@@ -36,14 +36,14 @@
                         <div class="col-lg-12">
                             <div class="product_top_bar d-flex justify-content-between align-items-center">
                                 <div class="single_product_menu product_bar_item">
-                                    <h2 id="sort">All (<?php echo count($images); ?>)</h2>
+                                    <h2 id="sort"></h2>
                                 </div>
                             </div>
                         </div>
 					<?php if (sizeof($images) > 0) : ?>
 						<?php foreach($images as $image) : ?>
 							<?php if ( $image->item_type == "Costume") : ?>
-								<div class="col-lg-4 col-sm-6 <?php echo $image->gender ?> " >
+								<div class="col-lg-4 col-sm-6 <?php echo $image->sex ?> " >
 									<div class="single_category_product">
 										<div class="single_category_img">
 											<?php 

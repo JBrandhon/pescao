@@ -12,9 +12,10 @@
 
 		public function get_report()
 		{	
-			$this->db->select('tbl_rentee.status, tbl_rentee.user_status ,tbl_rentee.first_name , tbl_rentee.last_name, tbl_rentee.address , tbl_rentee.phone ,tbl_rentee.email ,tbl_history.*');
+			$this->db->select('tbl_rentee.status, tbl_rentee.user_status ,tbl_rentee.first_name , tbl_rentee.last_name, tbl_rentee.address , tbl_rentee.phone ,tbl_rentee.email, tbl_history.*');
 			$this->db->from('tbl_rentee');
 			$this->db->join('tbl_history','tbl_history.reciept_number=tbl_rentee.reciept_number');
+			$this->db->order_by('tbl_rentee.date','DESC');
 			$query=$this->db->get();
 			return $query->result_array();
 		}
@@ -30,7 +31,8 @@
 				tbl_rentee.status,
 				tbl_rentee.user_status
 			FROM tbl_rentee,tbl_history 
-			WHERE tbl_history.from BETWEEN '".$start."' AND '".$end."' AND tbl_history.reciept_number=tbl_rentee.reciept_number AND tbl_rentee.user_status = 'staff/faculty';");
+			WHERE tbl_history.from BETWEEN '".$start."' AND '".$end."' AND tbl_history.reciept_number=tbl_rentee.reciept_number AND tbl_rentee.user_status = 'staff/faculty' 
+			ORDER BY tbl_rentee.date ASC;");
 
 			
 			return $query->result();
@@ -46,11 +48,12 @@
 				tbl_history.from,
 				tbl_history.payable,
 				tbl_rentee.status,
-				tbl_rentee.user_status
+				tbl_rentee.user_status,
+				tbl_rentee.date
 			FROM tbl_rentee,tbl_history 
-			WHERE tbl_history.from BETWEEN '".$start."' AND '".$end."' AND tbl_history.reciept_number=tbl_rentee.reciept_number AND tbl_rentee.user_status = 'guest';");
+			WHERE tbl_history.from BETWEEN '".$start."' AND '".$end."' AND tbl_history.reciept_number=tbl_rentee.reciept_number AND tbl_rentee.user_status = 'guest';
+			tbl_rentee.date ASC;");
 
-			
 			return $query->result();
 
 		}

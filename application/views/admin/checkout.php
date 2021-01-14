@@ -54,6 +54,7 @@
 							  <?php } ?>
 							  <option value="guest">Guest</option>
 							  <option value="staff/faculty">Staff/Faculty</option>
+							  <option value="couch">Couch</option>
 							</select>
 							<div id="danger_us" class="alert alert-danger" role="alert" style="display: none;">
 								This is field is required.	
@@ -179,6 +180,29 @@
   <!--<script src=" <?php //echo base_url('assets/js/jquery-1.12.1.min.js'); ?> "></script> -->
   <script>
 	$(document).ready(function(){
+
+		/*var id		= $('#id').val();
+		alert( id );
+		var interval = 1000;
+		
+		var data = {
+			'id' : id
+		}
+		
+		//function doAjax() {
+			$.ajax({
+				 type: "POST",
+				 url: "/pescao/checkout/cronJob",
+				 data: data , //assign the var here 
+				 success: function(data){
+					  //window.location.replace("/pescao/admin/dashboard");
+					  console.log(data);
+				 }
+			});*/
+		//}
+		
+		//setInterval(doAjax, interval);
+		
 			
 		//var elementExists = document.getElementById("payable");
 		//if( elementExists ){
@@ -257,8 +281,6 @@
 			  'qty'        : $qty,
 			  'rental_prize': $rental_prize,
 			};
-			
-			console.log( postData );
 			
 			$.ajax({
 				 type: "POST",

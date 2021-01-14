@@ -69,7 +69,7 @@
 										<a class="nav-link" href="<?php echo base_url("/checkout/cart")?>">Item Checkout</a>
 									</li>
 									<li class="nav-item">
-										<a class="nav-link" href="<?php echo base_url("/admin/rentors")?>">Rentors</a>
+										<a class="nav-link" href="<?php echo base_url("/admin/rentors")?>">Rented Items</a>
 									</li>
 									<li class="nav-item">
 										<a class="nav-link" href="<?php echo base_url("/admin/borrowers")?>">Borrowers</a>
@@ -82,11 +82,14 @@
 										<div class="dropdown-menu" aria-labelledby="navbarDropdown_2">
 											<a class="dropdown-item" href="<?php echo base_url('/admin/rentorReport'); ?>">Rentor History</a>
 											<a class="dropdown-item" href="<?php echo base_url('/admin/borrowerReport'); ?>">Borrower History</a>
-											<a class="dropdown-item" href="<?php echo base_url('/admin/item_lost'); ?>">General Report</a>
+											<a class="dropdown-item" href="<?php echo base_url('/admin/item_lost'); ?>">Item Inventory Report</a>
 										</div>
 									</li>
 									<li class="nav-item">
 										<?php echo (  $admin_id == 1 && $admin_id ? '<a class="nav-link" href="/pescao/admin/users/">Admin Users</a>': '' ) ?>
+									</li>
+									<li class="nav-item">
+										<?php echo (  $admin_id == 1 && $admin_id ? '<a class="nav-link" href="/pescao/admin/guest/">Users</a>': '' ) ?>
 									</li>
 
 								</ul>

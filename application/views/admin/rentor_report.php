@@ -43,6 +43,7 @@
 							<th class="th-sm" scope="col">Rented Quantity</th>
 							<th class="th-sm" scope="col">Rented Date</th>
 							<th class="th-sm" scope="col">Payable</th>
+							<th class="th-sm" scope="col">Penalty</th>
 							<th class="th-sm" scope="col">Status</th>
 							<th class="th-sm" scope="col">User Status</th>
 						  </tr>
@@ -52,6 +53,12 @@
 					<?php if (sizeof($records) > 0 ) : ?>
 						<?php foreach($records as $record) : 
 							if($record['user_status'] == 'guest' ) {
+								
+									
+						//var_dump( $record );
+						//die;
+					
+								
 						?>						
 						  <tr  name="pname">
 							 <td class='fname'><?php echo ucwords($record['first_name']).' '.ucwords($record['last_name']) ?></td>
@@ -61,6 +68,7 @@
 							 <td class='phone'><?php echo $record['rented_qty'] ?></td>
 							 <td class='phone'><?php echo $record['from'] ?></td>
 							 <td class='phone'>₱<?php echo number_format( $record['payable'], 2 ) ?></td>
+							 <td class='phone'>₱<?php echo number_format( $record['penalty'], 2 ) ?></td>
 							 <td class='phone'><?php echo ($record['status'] == 'Paid' ? 'Returned' : 'Rented' ) ?></td>
 							 <td class='phone'><?php echo $record['user_status'] ?></td>
 						  </tr>									
@@ -196,8 +204,43 @@ const selectElement = document.querySelector('#reportrange span');
 					var num					= value.payable;
 					var convertedPayable	= '₱' + parseInt( num ).toLocaleString() + '.00';
 					
+					var penalty 		= '₱0.00';; 
+					
+					if( value.date != null ){
+						
+						var d = new Date();
+
+						var month = d.getMonth()+1;
+						var day = d.getDate();
+
+						var output = d.getFullYear() + '-' +
+							((''+month).length<2 ? '0' : '') + month + '-' +
+							((''+day).length<2 ? '0' : '') + day;
+
+						//alert(output);
+				
+						var start 	= new Date(value.date);
+						var end 	= new Date(output);
+
+					   var diff 	= new Date(end - start);
+					   var days		= 1;
+						
+						days = diff / 1000 / 60 / 60 / 24;
+						
+						if( days > 9){
+							
+							var times = days - 9;
+							
+							penalty  = times * 200;
+							penalty  = '₱' + parseInt(penalty).toLocaleString() + '.00';
+						
+						}
+						
+					}
+					
+					s
 					var status 		= value.status; 
-					var br_status	= 'Borrowed';
+					var br_status	= 'Rented';
 					
 					if( status === 'Paid' ){
 						br_status = 'Returned';
@@ -208,7 +251,8 @@ const selectElement = document.querySelector('#reportrange span');
 						address: value.address, 
 						from: value.from, 
 						item_name: value.item_name, 
-						payable: convertedPayable, 
+						payable: convertedPayable,
+						penalty : penalty,
 						phone: value.phone, 
 						rented_qty: value.rented_qty, 
 						status: br_status, 
@@ -217,7 +261,7 @@ const selectElement = document.querySelector('#reportrange span');
 					
 				})
 									
-				const result = panelInfo.map(({ FullName, phone, address, item_name, rented_qty, from, payable, status, user_status }) => [FullName, phone, address, item_name, rented_qty, from, payable, status, user_status]);
+				const result = panelInfo.map(({ FullName, phone, address, item_name, rented_qty, from, payable, penalty, status, user_status }) => [FullName, phone, address, item_name, rented_qty, from, payable, penalty, status, user_status]);
 				console.log( 'This is the Result => ', result );
 				
 				var table = $('#dtBasicExample').DataTable();

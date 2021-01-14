@@ -31,6 +31,7 @@
 			</div>
 		  </div>
 		</div>
+		<input class="item-rentee" value="<?php echo $single_costume[0]['id'] ?>" name="deleterentee" hidden/>
 		<div class="col-lg-5 offset-lg-1">
 		  <div class="s_product_text">
 			  <div class="col-sm-6" style=" padding-left: 0px; ">
@@ -52,15 +53,13 @@
 				</div>
 				<div class="col-sm-6" style=" padding-left: 0px; ">
 					<div class="form-group">
-						<label>Gender</label>
+						<label>Sex</label>
 						<select class="form-control" name="gender" id="gender">
-							<option value="Male" <?php echo ( $single_costume[0]['gender'] == 'Male' ? 'selected':'' ) ?> >Men</option>
-							<option value="Female" <?php echo ( $single_costume[0]['gender'] == 'Female' ? 'selected':'' ) ?> >Women</option>
+							<option value="Male" <?php echo ( $single_costume[0]['sex'] == 'Male' ? 'selected':'' ) ?> >Men</option>
+							<option value="Female" <?php echo ( $single_costume[0]['sex'] == 'Female' ? 'selected':'' ) ?> >Female</option>
 						</select>
 					</div>
 				</div>
-				<br>
-				<br>
 			  <div id="prize"  class="col-sm-6" style=" padding-left: 0px; ">
                 <div class="form-group">
 				<labe>Rental Prize</labe>
@@ -89,6 +88,7 @@
 					</div>
 					<div class="add_to_cart">
 						<button type="submit" value="submit" id="save" class="genric-btn handle-save-item info circle"> Save</button>
+						<button type="button" value="hide" id="hide" class="genric-btn info circle"> Hide </button>
 					</div>
 			   </div>
 			</div>
@@ -235,6 +235,7 @@
  jQuery(document).ready(function($){ 
 	
 	
+	
 	var del= [];
 	$('.delete-image').click( function(){
 		$(this).parent().fadeOut();
@@ -247,7 +248,27 @@
 
 	})
 
-
+	$('#hide').click( function(){
+		
+		var id = $('.item-rentee').val();
+		
+		var postData = {
+		  'id' : id
+		};
+		
+		$.ajax({
+			type: "POST",
+			url: "<?php echo site_url('inventory/edit_rentee'); ?>",
+			data: postData, 
+			dataType: "html",
+			success: function(data){
+				console.log(data);
+				window.location.replace('/pescao/admin/dashboard/');
+			},
+			error: function() { alert("Error posting feed."); }
+	   });
+		
+	})
 
 	$('.input-images-1').imageUploader();
 	

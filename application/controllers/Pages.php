@@ -23,7 +23,7 @@
 					'admin_id' => $this->session->userdata('userId')
 				]); 
 				$this->load->view('public/'.$page, [
-					'images' => $this->model->all(),
+					'images' => $this->model->all(10,0),
 				]);
 				$this->load->view('elements/footer', $data);
 		}

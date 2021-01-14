@@ -68,7 +68,14 @@ class User extends CI_Model{
         } 
         return false; 
     }
+	
+	public function update_guest($id) {
+		
+		$query = $this->db->query(" update tbl_admin set user_permission = 'approve' where id = ". $id ." ");
 
+		return true;
+	}
+	
     public function update_profile($data = array() , $user_id ) {   
 		print_r($user_id);
 		// die();
@@ -144,6 +151,11 @@ class User extends CI_Model{
 			
 			// $q = $this->db->delete($this->table, array('id' => $id));
 			// return true;
+	}
+	
+	public function deleteGuest($id){
+			$query = $this->db->query(" DELETE tbl_admin where id = ". $id ." ");
+			return true;
 	}
 	
 }

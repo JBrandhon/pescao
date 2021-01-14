@@ -53,7 +53,7 @@
 						<?php foreach($records as $record) : 
 							if($record['user_status'] == 'guest' ) {
 						?>						
-						  <tr  name="pname">
+						  <tr name="pname">
 							 <td class='fname'><?php echo ucwords($record['first_name']).' '.ucwords($record['last_name']) ?></td>
 							 <td class='phone'><?php echo $record['phone'] ?></td>
 							 <td class='phone'><?php echo $record['address'] ?></td>

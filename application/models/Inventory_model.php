@@ -17,13 +17,18 @@
 			$this->title = '';
 			$this->image = '';
 		}
-
-		public function all()
+		
+		
+		public function countAll(){
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id WHERE tbl_4_rent.item_status = 'good' GROUP BY tbl_images.item_id;");
+			return $select->num_rows();
+		}
+		
+		public function all($limit,$offset)
 		{
-			// $this->db->order_by('id', 'desc');
-			// $q = $this->db->get($this->table);
-			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id GROUP BY tbl_images.item_id ; ");
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id WHERE tbl_4_rent.item_status = 'good' GROUP BY tbl_images.item_id LIMIT ".$limit." OFFSET ".$offset.";"); 
 			return $select->result();
+			
 		}
 
 		public function item_lost($data)
@@ -102,7 +107,6 @@
 				return 'empty';
 			}
 			
-			// $q->result_array()
 		}
 		
 		
@@ -115,6 +119,17 @@
 			return true;
 	
 		}
+		
+		public function update_rent( $id ){
+
+			$this->db->set( 'item_status', 'damage');
+			$this->db->where('id', $id);
+			$this->db->update('tbl_4_rent');
+			
+			return true;
+	
+		}
+		
 		
 		public function delete_image( $item_id ){
 
@@ -130,14 +145,29 @@
 	
 		}
 		
-		public function search_data( $key){
-			// $select = $this->db->query(" SELECT * FROM  ");
-			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.name LIKE '".$key."%' GROUP BY tbl_images.item_id;  ");
-			echo $select;
-			// return $select->result();
+		public function count_data($data){
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.item_status = 'good' AND tbl_4_rent.name LIKE '".$data."%' GROUP BY tbl_images.item_id;  ");
+			return $select->num_rows();
+	
+		}
+		
+		public function search_data($key, $limit, $offset){
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.item_status = 'good' AND tbl_4_rent.name LIKE '".$key."%' GROUP BY tbl_images.item_id LIMIT ".$limit." OFFSET ".$offset.";");
+			return $select->result();
+	
+		}
+		
+		public function count_category( $key){
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.item_status = 'good' AND tbl_4_rent.category = '".$key."' GROUP BY tbl_images.item_id;");
+			return $select->num_rows();
 	
 		}
 
+		public function search_category($key, $limit, $offset){
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.item_status = 'good' AND tbl_4_rent.category = '".$key."' GROUP BY tbl_images.item_id; LIMIT ".$limit." OFFSET ".$offset.";");
+			return $select->result();
+		}
+		
 		public function store($data = array() )
 		{
 			 

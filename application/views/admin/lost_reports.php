@@ -7,7 +7,7 @@
                <div class="col-lg-12">
                   <div class="product_top_bar d-flex justify-content-between align-items-center">
                      <div class="single_product_menu product_bar_item" style="display: contents;">
-                        <h2>Report</h2>
+                        <h2>Report Test</h2>
 						<div>
 							<button class="btn-print btn_3 " type="submit">Print</button>
 						</div>
@@ -18,7 +18,7 @@
 					   <thead>
 						  <tr>
 							<th class="th-sm" scope="col">Item Name</th>
-							<th class="th-sm" scope="col">Remaining Quantity</th>
+							<th class="th-sm" scope="col">Available Quantity</th>
 							<th class="th-sm" scope="col">Total Item Quantity</th>
 							<th class="th-sm" scope="col">Total Item Lost</th>
 							<th class="th-sm" scope="col">Rental Prize</th>

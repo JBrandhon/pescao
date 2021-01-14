@@ -43,7 +43,7 @@
 						 
 							 <?php if (sizeof($users) > 0 ) : ?>
 								 <?php foreach($users as $user) : ?>
-									<?php if ($user->id != 1 && $user->status == true ) : ?>
+									<?php if ($user->id != 1 && $user->status == true && $user->user_status != 'guest' ) : ?>
 										  <tr id="<?php echo $user->id ?>" name="pname">
 											 <td class='fname'><?php echo ucwords($user->first_name).' '.ucwords($user->last_name) ?></td>
 											 <td class='username'><?php echo $user->username ?></td>

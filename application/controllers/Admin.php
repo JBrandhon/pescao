@@ -25,8 +25,34 @@ class Admin extends CI_Controller {
         } 
     } 
 	
-    public function dashboard(){ 
-        $data = array(); 
+    public function dashboard($offset=0){ 
+        $data 	= array();
+		
+		$param 			= parse_url($_SERVER['REQUEST_URI']);
+		$query_exist 	= array_key_exists('query',$param);
+		
+		
+		var_dump( $param );
+		
+		$this->load->library('pagination');	
+		$config['per_page']			= 10;
+		
+		//$query_count 	= $this->model->countAll();
+		//$data_query		= $this->model->all( $config['per_page'], $offset);
+		
+		if( $query_exist ){
+			$url_param		= $param['query'];
+			$query_count 	= $this->model->count_category($url_param);
+			$data_query		= $this->model->search_category( $url_param, $config['per_page'], $offset );
+		}
+		
+		
+		$config['base_url'] 		= $param['path'];
+		$config['total_rows'] 		= $query_count;
+		
+		$this->pagination->initialize($config);
+		
+		
         if($this->isUserLoggedIn){ 
             $con = array( 
                 'id' => $this->session->userdata('userId') 
@@ -37,8 +63,9 @@ class Admin extends CI_Controller {
             $this->load->view('elements/header', [
 				'admin_id' => $this->session->userdata('userId')
 			]); 
+
             $this->load->view('admin/dashboard',[ 
-				'costumes' => $this->model->all(),
+				'costumes' => $this->model->all( $config['per_page'], $offset),
 				]); 
             $this->load->view('elements/footer'); 
         }else{ 
@@ -56,9 +83,7 @@ class Admin extends CI_Controller {
          
         // If registration request is submitted 
         if($this->input->post('signupSubmit')){ 
-			
-
-			
+		
 			if( $this->input->post('password') == '' ){
 					
 					$this->form_validation->set_rules('first_name', 'First Name', 'required'); 
@@ -73,10 +98,7 @@ class Admin extends CI_Controller {
 						'email' => strip_tags($this->input->post('email')),
 						'gender' => $this->input->post('gender'), 
 						'phone' => strip_tags($this->input->post('phone')) 
-					); 
-					
-
-				
+					); 			
 			}else{
 				
 				    $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
@@ -133,11 +155,11 @@ class Admin extends CI_Controller {
          
         // If login request submitted 
         if($this->input->post('loginSubmit')){ 
-            $this->form_validation->set_rules('username', 'username', 'required'); 
+            $this->form_validation->set_rules('username', 'usernamse', 'required'); 
             $this->form_validation->set_rules('password', 'password', 'required'); 
         
-            if($this->form_validation->run() == true){ 
-                $con = array( 
+				if($this->form_validation->run() == true){ 
+					$con = array( 
                     'returnType' => 'single', 
                     'conditions' => array( 
                         'username'=> $this->input->post('username'), 
@@ -146,20 +168,21 @@ class Admin extends CI_Controller {
                     ) 
                 ); 
 				
-				echo $this->user->getRows($con);
-				
-                $checkLogin = $this->user->getRows($con); 
-								
-                if($checkLogin){ 
-					$this->session->set_userdata('sessionReciept',''); 
-                    $this->session->set_userdata('isUserLoggedIn', TRUE); 
-                    $this->session->set_userdata('userId', $checkLogin['id']); 
-                    // $this->session->set_userdata('userId', $checkLogin['is_super_admin']); 
-                    redirect('admin/dashboard/'); 
-                }else{ 
-                    $data['error_msg'] = 'Wrong username or password, please try again.'; 
-					
-                } 
+                $checkLogin = $this->user->getRows($con);
+			
+				if($checkLogin['user_permission'] == 'approve'){ 
+						$this->session->set_userdata('sessionReciept',''); 
+						$this->session->set_userdata('isUserLoggedIn', TRUE); 
+						$this->session->set_userdata('userId', $checkLogin['id']); 
+						// $this->session->set_userdata('userId', $checkLogin['is_super_admin']);
+						
+							redirect('admin/dashboard/');
+						
+				}else if($checkLogin['user_permission'] != 'approve'){ 
+					$data['error_msg'] = 'Your permission is not Approve! Please contact your administration for Approval';
+				} else {
+					$data['error_msg'] = 'Wrong username or password, please try again.'; 
+				}
             }else{ 
                 $data['error_msg'] = 'Please fill all the mandatory fields.'; 
             } 
@@ -173,6 +196,60 @@ class Admin extends CI_Controller {
         $this->load->view('admin/login', $data); 
         $this->load->view('elements/footer'); 
     } 
+	
+	public function update_guestacc(){
+		$id =  $this->input->post('id');
+        return $this->user->update_guest($id);
+	}
+ 
+	public function guestacc(){
+		
+		 $data = $userData = array(); 
+         
+        // If registration request is submitted 
+        if($this->input->post('signupSubmit')){ 
+            $this->form_validation->set_rules('first_name', 'First Name', 'required'); 
+            $this->form_validation->set_rules('last_name', 'Last Name', 'required'); 
+            $this->form_validation->set_rules('username', 'Username', 'required'); 
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email|callback_email_check'); 
+            $this->form_validation->set_rules('password', 'password', 'required'); 
+            $this->form_validation->set_rules('conf_password', 'confirm password', 'required|matches[password]'); 
+ 
+            $userData = array( 
+                'first_name' 		=> strip_tags($this->input->post('first_name')), 
+                'last_name' 		=> strip_tags($this->input->post('last_name')), 
+                'username' 			=> strip_tags($this->input->post('username')), 
+                'email' 			=> strip_tags($this->input->post('email')), 
+                'password' 			=> md5($this->input->post('password')), 
+                'gender' 			=> $this->input->post('gender'), 
+                'phone' 			=> strip_tags($this->input->post('phone')),
+				'user_status' 		=> 'guest',
+				'user_permission' 	=> 'unapprove'
+            ); 
+ 
+            if($this->form_validation->run() == true){ 
+                $insert = $this->user->insert($userData); 
+                if($insert){ 
+                    $this->session->set_userdata('success_msg', 'Your account registration has been successful. Please login to your account.'); 
+                    redirect('admin/users'); 
+                }else{ 
+                    $data['error_msg'] = 'Some problems occured, please try again.'; 
+                } 
+            }else{ 
+                $data['error_msg'] = 'Please fill all the mandatory fields.'; 
+            } 
+        } 
+         
+        // Posted data 
+        $data['user'] = $userData; 
+         
+        // Load view 
+        $this->load->view('elements/header', [
+			'admin_id' => '']); 
+        $this->load->view('admin/guest_registration', $data); 
+        $this->load->view('elements/footer'); 
+		
+	}
  
     public function registration(){ 
         $data = $userData = array(); 
@@ -193,7 +270,8 @@ class Admin extends CI_Controller {
                 'email' => strip_tags($this->input->post('email')), 
                 'password' => md5($this->input->post('password')), 
                 'gender' => $this->input->post('gender'), 
-                'phone' => strip_tags($this->input->post('phone')) 
+                'phone' => strip_tags($this->input->post('phone')),
+				'user_permission' => 'approve' 
             ); 
  
             if($this->form_validation->run() == true){ 
@@ -274,6 +352,24 @@ class Admin extends CI_Controller {
 			'admin_id' => $this->session->userdata('userId')
 		]); 
         $this->load->view('admin/admin-users',[ 
+				'users' => $this->user->getUsers(),
+				'admin_id' => $this->session->userdata('userId')
+				]); 
+        $this->load->view('elements/footer'); 
+    } 
+	
+	public function guest(){ 
+        if(!$this->isUserLoggedIn){ 
+            redirect('admin/login'); 
+		}
+	
+		$this->load->view('elements/header', [
+			'admin_id' => $this->session->userdata('userId')
+		]); 
+		
+			
+		
+        $this->load->view('admin/guest',[ 
 				'users' => $this->user->getUsers(),
 				'admin_id' => $this->session->userdata('userId')
 				]); 
@@ -373,12 +469,18 @@ class Admin extends CI_Controller {
    
    
    public function deleteUser(){ 
+   
 		$id =  $this->input->post('id');
-		echo 'wtf:',$id;
         return $this->user->deleteUser($id);
+		
    }
    
-
+	public function removeGuest(){ 
+   
+		$id =  $this->input->post('id');
+        return $this->user->deleteGuest($id);
+		
+   }
 
    public function edit(){ 
 
