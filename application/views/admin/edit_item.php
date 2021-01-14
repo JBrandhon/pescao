@@ -52,6 +52,18 @@
 					</div>
 				</div>
 				<div class="col-sm-6" style=" padding-left: 0px; ">
+					<label>Category:</label>
+					<select name="category" class="form-control category-ctrl">
+						<option value="<?php $single_costume[0]['category']; ?>" ><?php echo $single_costume[0]['category']; ?></option>
+						<option value="barong"> Barong</option>
+						<option value="dalit costume">Dalit Costume</option>
+						<option value="accesories">Accesories</option> 
+						<option value="male attire">Male Attire</option>
+						<option value="female attire">Female Attire</option>
+						<option value="gown">Gown</option>
+					</select>
+				</div>
+				<div class="col-sm-6" style=" padding-left: 0px; ">
 					<div class="form-group">
 						<label>Sex</label>
 						<select class="form-control" name="gender" id="gender">

@@ -49,7 +49,7 @@
 										<label for="male">Gown</label><br>
                                     </li>
 									
-									<input id="value-hidden-category">
+									<input id="value-hidden-category" hidden>
 									
                                 </ul>
                             </div>
@@ -82,8 +82,7 @@
 							<div class="input-group" style=" margin: 20px 0;">
 								<input type="text" style=" border-radius: .25rem; margin-left: 400px; margin-right: 10px;"  name="search" id="search_text" class="form-control" placeholder="Search">
 								<button class="search_btn"
-									style="
-									border-radius: .25rem;		
+									style="border-radius: .25rem;		
 									display: inline-block;
 									padding: 5px 15px;
 															background-color: #2f7dfc;
@@ -136,9 +135,11 @@
 									<?php } endforeach; ?>
 								<?php endif; ?>
 							</div>
-							<div class="col-lg-12 page-link-ctrl text-center">
-								<div class="page-link"><?php echo $this->pagination->create_links(); ?></div>
-							</div>
+							<?php if (sizeof($costumes) > 0) : ?>
+								<div class="col-lg-12 page-link-ctrl text-center">
+									<div class="page-link"><?php echo $this->pagination->create_links(); ?></div>
+								</div>
+							<?php endif; ?>
 						</div>
                         <div class="col-lg-12 page-link-ctrl text-center">
 							<a href="#" class="btn_2">Back to top</a>
@@ -239,7 +240,6 @@ $(document).ready(function(){
 	$( '.search_btn' ).click( function(){
 
 		var text = $('#search_text').val();
-		res = new Array();
 		
 		if( text != '' ){
 			$('.main-page-controller').hide();	
@@ -247,7 +247,8 @@ $(document).ready(function(){
 			$.ajax({
 				 method: "POST",
 				 url: "/pescao/inventory/search",
-				 data: { search : text},
+				 data: { 'search' : text,
+						 'page'	: 1 },
 				 success: function(data){
 					$('.search-page-controller').html(data);
 				 }
@@ -259,6 +260,30 @@ $(document).ready(function(){
 		}
 		
 	});
+
+	$(document).on('click', '.pagination_link_search', function(){
+		var text 	= $('#search_text').val();
+		 var page 	= $(this).attr("id"); 
+
+		if( text != '' ){
+			$('.main-page-controller').hide();	
+			$('.search-page-controller').show();
+			$.ajax({
+				 method: "POST",
+				 url: "/pescao/inventory/search",
+				 data: { 'search' : text,
+						 'page'	: page },
+				 success: function(data){
+					$('.search-page-controller').html(data);
+				 }
+			});
+			
+		} else {
+			$('.search-page-controller').hide();
+			$('.main-page-controller').show();
+		}
+	});
+
 	$('#example').DataTable( {
         "pagingType": "full_numbers"
     } );
