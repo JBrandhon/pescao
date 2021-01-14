@@ -202,80 +202,67 @@
 			redirect(site_url('/admin/dashboard'), 'refresh');
 		}
 		
-		public function search_category( $offset=0 ){	
+		public function search_category(){	
 			
 			$output = '';
-			$data 	= $this->input->post('data');
-
-			$this->load->library('pagination');			
-			$config['base_url'] 		= site_url('admin/dashboard');
-			$config['total_rows']		= $this->model->count_category($data);
-			$config['per_page']			= 10;
+			$record_per_page 	= 10;
+			$data 				= $this->input->post('val');
+			$page 				= $this->input->post('page');
+	
+			$start_from			= ($page - 1) * $record_per_page;
 			
-			$this->pagination->initialize($config);
-			
-			$update = $this->model->search_category( $data, $config['per_page'], $offset );
+			$update 			= $this->model->search_category( $data, $start_from	, $record_per_page );
+			$total_records		= $this->model->count_category($data);
+			$total_page			= ceil( $total_records/$record_per_page );
 			
 			ob_start();
 			
 			if( count($update) > 0 ){
-				?><div class="search-result" style="display: contents;"><?php
-				foreach( $update as  $costume ){
 				
-					if( $costume->item_status  == 'good' ){
-					
-				?>
-						
-					<div class="col-lg-4 col-sm-6 <?php echo $costume->item_type?>">
-						<div class="single_category_product">
-							<div class="single_category_img">
-								<?php 
-									echo '<img style=" height: 254px; object-fit: cover; " class="rounded mx-auto d-block img-thumbnail"  src="data:image/jpeg;base64,'.base64_encode($costume->image ).'"/>'; 
-								?>
-								<div class="category_social_icon">
-									<ul>
-										<li><a href="<?php echo base_url('single_costume/edit/').$costume->id; ?>"><i class="ti-pencil-alt"></i></a></li>
-									</ul>
-								</div>
-								<div class="category_product_text">
-									<a href="<?php echo base_url('single_costume/view/').$costume->id; ?> ">
-										<h5> <?php echo $costume->name ?> </h5>
-									</a>
-									<?php echo ($costume->item_type === 'Costume' ? '
-										<p>₱'.number_format($costume->rental_prize, 2 ).'</p>
-									': ''); ?>
-									<label>qty:<?php echo number_format( $costume->qty )  ?> </labelP>
-									
+				foreach( $update as  $costume ){
+					?>
+						<div class="col-lg-4 col-sm-6 <?php echo $costume->item_type?>">
+							<div class="single_category_product">
+								<div class="single_category_img">
+									<?php 
+										echo '<img style=" height: 254px; object-fit: cover; " class="rounded mx-auto d-block img-thumbnail"  src="data:image/jpeg;base64,'.base64_encode($costume->image ).'"/>'; 
+									?>
+									<div class="category_social_icon">
+										<ul>
+											<li><a href="<?php echo base_url('single_costume/edit/').$costume->id; ?>"><i class="ti-pencil-alt"></i></a></li>
+										</ul>
+									</div>
+									<div class="category_product_text">
+										<a href="<?php echo base_url('single_costume/view/').$costume->id; ?> ">
+											<h5> <?php echo $costume->name ?> </h5>
+										</a>
+										<?php echo ($costume->item_type === 'Costume' ? '
+											<p>₱'.number_format($costume->rental_prize, 2 ).'</p>
+										': ''); ?>
+										<label>qty:<?php echo number_format( $costume->qty )  ?> </labelP>
+										
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				
-				<?php } else {
-					
-					echo '<div class="col-lg-4 col-sm-6 ">
-										<p>No Data Found!</p>
-								</div>';
-					
-					}
-				}
-				 ?>
-				</div>
-				<div class="col-lg-12 link-page text-center">
-					<div class="page-link"><?php echo $this->pagination->create_links(); ?></div>
-				</div>
-				<?php
+					<?php
+				} 
+				echo '<div class="col-lg-12 page-link-ctrl text-center" style="display: flex; align-items: center;justify-content: center;">';
+					for($i=1; $i<=$total_page; $i++){  
+						?>
+								<div><span class="pagination_link" style="cursor:pointer; padding:6px; border:1px solid #ccc;" id="<?php echo $i; ?>"><?php echo $i; ?></span></div>
+							
+						<?php
+					} 
+				echo '</div>';
 				
 			} else {
-				
-				$output .= '	<div class="col-lg-4 col-sm-6 ">
-										<p>No Data Found!</p>
-								</div>';
-								
+				$output .= '<div class="col-lg-4 col-sm-6 "><p>No Data Found!</p></div>';
 			}
+			
 			$output .= ob_get_clean();
 			echo $output;
-		
+			
 		}
 		
 

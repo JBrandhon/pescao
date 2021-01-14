@@ -13,15 +13,23 @@
                                 <ul class="list">
                                     </li>  
 									<li>
-									  <input type="radio" id="all" class="sort" name="gender" value="all" checked="checked">
+									  <input onclick="()"; type="radio" id="all" class="sort" name="gender" value="all" checked="checked">
 									  <label for="all">All</label><br>
                                     </li>
+                                    <!--<li>
+										<input type="radio" id="costumes" class="sort" name="gender" value="costumes">
+										<label for="male">Costumes</label><br>
+                                    </li>
+                                    <li>
+									  <input type="radio" id="equipments" class="sort" name="gender" value="equipments">
+									  <label for="female">Sports Equipments</label><br>
+									</li>-->
 									<li>
 										<input type="radio" id="barong" class="sort" name="gender" value="barong">
 										<label for="male">Barong</label><br>
                                     </li>
 									<li>
-										<input type="radio" id="dalit-custome" class="sort" name="gender" value="dalit_costume">
+										<input type="radio" id="dalit-custome" class="sort" name="gender" value="dalit costume">
 										<label for="male">Dalit Costume</label><br>
                                     </li>
 									<li>
@@ -29,17 +37,20 @@
 										<label for="male">Accesories</label><br>
                                     </li>
 									<li>
-										<input type="radio" id="male-attr" class="sort" name="gender" value="male_attire">
+										<input type="radio" id="male-attr" class="sort" name="gender" value="male attire">
 										<label for="male">Male Attire</label><br>
                                     </li>
 									<li>
-										<input type="radio" id="female-atr" class="sort" name="gender" value="female_attire">
+										<input type="radio" id="female-atr" class="sort" name="gender" value="female attire">
 										<label for="male">Female Attire</label><br>
                                     </li>
 									<li>
 										<input type="radio" id="gown" class="sort" name="gender" value="gown">
 										<label for="male">Gown</label><br>
                                     </li>
+									
+									<input id="value-hidden-category">
+									
                                 </ul>
                             </div>
                         </aside>
@@ -53,6 +64,14 @@
                                     <h2>Costumes & Equipments</h2>
                                 </div>
                                 <div class="product_top_bar_iner product_bar_item d-flex">
+                                    <div class="product_bar_single">
+                                       <!-- <select class="wide">
+                                            <option data-display="Default sorting">Default sorting</option>
+                                            <option value="1">Some option</option>
+                                            <option value="2">Another option</option>
+                                            <option value="3">Potato</option>
+                                        </select> -->
+                                    </div>
                                     <div class="product_bar_single">
 									<?php if( $admin_id == 1) {?>
 										<button type="button" class="btn btn_3 btn-info btn-lg" data-toggle="modal" data-target="#addCostumeModal">Add Item</button>
@@ -262,6 +281,7 @@ $(document).ready(function(){
 
 	$('.input-images-1').imageUploader();
 
+
 	$("#sp").click(function(){
 		$('#prize-label').hide();
 		$('#costume_prize').hide();
@@ -271,14 +291,69 @@ $(document).ready(function(){
 		$('#costume_prize').show();
 	});
 	
-	$('.sort').click(function () {	
-	
-		var data = $(this).val();
-		data
-
-		window.location.href = window.location.origin + "/pescao/index.php/admin/dashboard/?" + data;
+	$('.sort').click(function () {
+		var data			=  $(this).val();
+		$('#value-hidden-category').val(data);
+		if(  data == 'all' ){
+			$('.search-page-controller').hide();
+			$('.main-page').show();
+		}
 		
+		if( data != '' && data != 'all' ){
+			$('.main-page').hide();
+			$.ajax({
+				 method: "POST",
+				 url: "/pescao/inventory/search_category",
+				 data: { 
+						'val'	: data,
+						'page'	: 1
+					},
+				 success: function(data){
+	
+					$('.search-page-controller').show();
+					$('.search-page-controller').html(data);
+					$('.main-page-controller').hide();
+				 }
+			});
+			
+		} else {
+			$('#result').html('');
+			$('.main-page-controller').show();
+		}
 	});
+	
+	$(document).on('click', '.pagination_link', function(){  
+
+        var page 	= $(this).attr("id"); 
+		var val 	= $('#value-hidden-category').val();  
+
+		if(  val == 'all' ){
+			$('.search-page-controller').hide();
+			$('.main-page').show();
+		}
+		
+		if( val != '' && val != 'all' ){
+			$('.main-page').hide();
+			$.ajax({
+				 method: "POST",
+				 url: "/pescao/inventory/search_category",
+				data: { 
+					'val'	: val,
+					'page'	: page
+				},
+				success: function(data){
+					$('.search-page-controller').show();
+					$('.search-page-controller').html(data);
+					$('.main-page-controller').hide();
+				 }
+			});
+			
+		} else {
+			$('#result').html('');
+			$('.main-page-controller').show();
+		}
+		   
+      }); 
 });
 
 </script>

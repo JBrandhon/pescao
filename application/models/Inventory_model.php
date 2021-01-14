@@ -163,9 +163,11 @@
 	
 		}
 
-		public function search_category($key, $limit, $offset){
-			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.item_status = 'good' AND tbl_4_rent.category = '".$key."' GROUP BY tbl_images.item_id; LIMIT ".$limit." OFFSET ".$offset.";");
+		public function search_category($key, $start_from, $record_per_page){
+			
+			$select = $this->db->query(" SELECT * FROM tbl_images INNER JOIN tbl_4_rent ON tbl_4_rent.id=tbl_images.item_id  WHERE tbl_4_rent.item_status = 'good' AND tbl_4_rent.category = '".$key."' GROUP BY tbl_images.item_id LIMIT ".$start_from.", ".$record_per_page.";");
 			return $select->result();
+			
 		}
 		
 		public function store($data = array() )

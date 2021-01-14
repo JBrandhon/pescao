@@ -25,34 +25,8 @@ class Admin extends CI_Controller {
         } 
     } 
 	
-    public function dashboard($offset=0){ 
-        $data 	= array();
-		
-		$param 			= parse_url($_SERVER['REQUEST_URI']);
-		$query_exist 	= array_key_exists('query',$param);
-		
-		
-		var_dump( $param );
-		
-		$this->load->library('pagination');	
-		$config['per_page']			= 10;
-		
-		//$query_count 	= $this->model->countAll();
-		//$data_query		= $this->model->all( $config['per_page'], $offset);
-		
-		if( $query_exist ){
-			$url_param		= $param['query'];
-			$query_count 	= $this->model->count_category($url_param);
-			$data_query		= $this->model->search_category( $url_param, $config['per_page'], $offset );
-		}
-		
-		
-		$config['base_url'] 		= $param['path'];
-		$config['total_rows'] 		= $query_count;
-		
-		$this->pagination->initialize($config);
-		
-		
+    public function dashboard($offset=9){ 
+        $data = array(); 
         if($this->isUserLoggedIn){ 
             $con = array( 
                 'id' => $this->session->userdata('userId') 
@@ -63,7 +37,14 @@ class Admin extends CI_Controller {
             $this->load->view('elements/header', [
 				'admin_id' => $this->session->userdata('userId')
 			]); 
-
+			
+			$this->load->library('pagination');			
+			$config['base_url'] 		= site_url('admin/dashboard');
+			$config['total_rows']		= $this->model->countAll();
+			$config['per_page']			= 10;
+			
+			$this->pagination->initialize($config);
+			
             $this->load->view('admin/dashboard',[ 
 				'costumes' => $this->model->all( $config['per_page'], $offset),
 				]); 
