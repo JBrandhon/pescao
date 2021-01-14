@@ -422,11 +422,20 @@ class Admin extends CI_Controller {
 		}
 	
 		
+		// $this->load->view('elements/header', [
+			// 'admin_id' => $this->session->userdata('userId')
+		// ]);  
+        // $this->load->view('admin/rentors',[ 
+				// 'rentors' => $this->rentee->get_rentors(),
+				// 'admin_id' => $this->session->userdata('userId')
+				// ]); 
+        // $this->load->view('elements/footer'); 
+		
 		$this->load->view('elements/header', [
 			'admin_id' => $this->session->userdata('userId')
-		]);  
+		]); 
         $this->load->view('admin/rentors',[ 
-				'rentors' => $this->rentee->get_rentors(),
+				'rentors' => $this->reports->get_report(),
 				'admin_id' => $this->session->userdata('userId')
 				]); 
         $this->load->view('elements/footer'); 

@@ -16,7 +16,7 @@
                   <div class="product_top_bar d-flex justify-content-between align-items-center">
                      <div class="single_product_menu product_bar_item" style="display: flex;width: 100%; justify-content: space-between;">
                         <div class="rentors-title">
-							<h2>Rentors</h2>
+							<h2>Rented Items</h2>
 						</div>
 						<div style="text-align: end;">
 							<button class="btn-print btn_3 " type="submit">Print</button>
@@ -42,6 +42,7 @@
 							<th scope="col">Email</th>
 							<th scope="col">Phone</th>
 							<th scope="col">Address</th>
+							<th scope="col">Item Name</th>
 							<th scope="col">Status</th>
 							<th scope="col">User Status</th>
 							<th scope="col">Action</th>
@@ -50,42 +51,42 @@
 				   <tbody>
 						<?php if (sizeof($rentors) > 0 ) : ?>	
 							<?php foreach($rentors as $rentee) : 
-								if( $rentee->user_status == 'guest' ){
+									if($rentee['user_status'] == 'guest' ) {
 							?>
-								 <td class='fname'><?php echo ucwords($rentee->first_name).' '.ucwords($rentee->last_name) ?></td>
-								 <td class='email'><?php echo $rentee->email ?></td>
-								 <td class='phone'><?php echo $rentee->phone ?></td>
-								 <td class='address'><?php echo $rentee->address ?></td>
-								 <td class='status'><?php echo ($rentee->status == 'Paid' ? 'Returned' : 'Rented' ) ?></td>
-								 <td class='user_status'><?php echo $rentee->user_status ?></td>
+								 <td class='fname'><?php echo ucwords($rentee['first_name']).' '.ucwords($rentee['last_name']) ?></td>
+								 <td class='email'><?php echo $rentee['email'] ?></td>
+								 <td class='phone'><?php echo $rentee['phone'] ?></td>
+								 <td class='address'><?php echo $rentee['address'] ?></td>
+								 <td class='address'><?php echo $rentee['item_name'] ?></td>
+								 <td class='status'><?php echo ($rentee['status'] == 'Paid' ? 'Returned' : 'Rented' ) ?></td>
+								 <td class='user_status'><?php echo $rentee['user_status'] ?></td>
 								 <td>
 								  <?php
+									// $numberDays = 0;
 									
-									$numberDays = 0;
+									// if( $rentee['date'] == 'null' ){
 									
-									if( $rentee->date == 'null' ){
-									
-										$date  			= date('Y-m-d');
+										// $date  			= date('Y-m-d');
 					
-										$startTimeStamp = strtotime($rentee->date);
-										$endTimeStamp 	= strtotime($date);
+										// $startTimeStamp = strtotime($rentee->date);
+										// $endTimeStamp 	= strtotime($date);
 
-										$timeDiff		= abs($endTimeStamp - $startTimeStamp);
+										// $timeDiff		= abs($endTimeStamp - $startTimeStamp);
 
-										$numberDays 	= $timeDiff/86400;  // 86400 seconds in one day
+										// $numberDays 	= $timeDiff/86400;  // 86400 seconds in one day
 
-										// and you might want to convert to integer
-										$numberDays 	= intval($numberDays);
+										// // and you might want to convert to integer
+										// $numberDays 	= intval($numberDays);
 										
-									}
+									// }
 									
-									$color = ($numberDays >= '10' && $rentee->status != 'Paid' ) ? 'color : red; ' : 'color: #007bff;' ;
+									// $color = ($numberDays >= '10' && $rentee['status'] != 'Paid' ) ? 'color : red; ' : 'color: #007bff;' ;
 									
 
-									if ($rentee->status != 'Paid' ) : ?>
-										<a href="<?php echo base_url('rentor/billing_details/').$rentee->reciept_number; ?> " type="button" class="btn"><i class="ti-shopping-cart" style="<?php echo $color; ?>"></i></a>
+									if ($rentee['status'] != 'Paid' ) : ?>
+										<a href="<?php echo base_url('rentor/billing_details/').$rentee['reciept_number']; ?> " type="button" class="btn"><i class="ti-shopping-cart" style="color: #007bff;"></i></a>
 									<?php endif; ?>
-										<a target="_blank" href="<?php echo base_url('/rentor/reciept/').$rentee->reciept_number; ?> " type="button" class="btn"><i class="ti-printer" style="color: #007bff;"></i></a>
+										<a target="_blank" href="<?php echo base_url('/rentor/reciept/').$rentee['reciept_number']; ?> " type="button" class="btn"><i class="ti-printer" style="color: #007bff;"></i></a>
 								 </td>
 							  </tr>			
 							
